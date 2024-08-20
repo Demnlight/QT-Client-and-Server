@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "../App/CServer.h"
+#include "../PostgreSQL/CDataBaseConnector.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CMainWindow; }
@@ -20,5 +21,6 @@ public:
 private:
     Ui::CMainWindow *ui;
     std::unique_ptr<CServer> Server;
+    std::unique_ptr<CDataBaseConnector> DBConnector;
 };
 #endif // CMAINWINDOW_H

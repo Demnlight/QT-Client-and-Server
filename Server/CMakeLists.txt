@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(ServerProject VERSION 1.0.0 LANGUAGES CXX)
 
+find_package(PostgreSQL REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(PQXX REQUIRED libpqxx)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Network)
 qt_standard_project_setup()
 

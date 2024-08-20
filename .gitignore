@@ -10,6 +10,8 @@
 *.dll
 *.dylib
 
+*.DS_Store
+
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
@@ -54,6 +56,5 @@ compile_commands.json
 *_qmlcache.qrc
 
 #Build folders
-
 build/
 .vscode
