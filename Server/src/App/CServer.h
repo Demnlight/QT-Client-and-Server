@@ -12,11 +12,12 @@ class CServer : public QTcpServer
 
 public:
     CServer();
+    ~CServer();
 public slots:
-    void incomingConnection(qintptr descriptor);
+    void incomingConnection(qintptr descriptor) override;
 
 private:
-    QVector<CConnectionThread *> aThreads;
+    QVector<std::shared_ptr<CConnectionThread>> aThreads;
 
     const int port = 3333;
 };

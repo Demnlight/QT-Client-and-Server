@@ -5,31 +5,42 @@ CConnectionThread::CConnectionThread(qintptr id, QObject *parent)
     this->descriptor = id;
 }
 
-void CConnectionThread::Run()
+void CConnectionThread::run()
 {
     this->socket = std::make_unique<QTcpSocket>();
 
-    if (!this->socket->setSocketDescriptor(this->descriptor)) {
+    if (!this->socket->setSocketDescriptor(this->descriptor))
+    {
         QAbstractSocket::SocketError error = socket->error();
-        qDebug( ) << error;
+        qDebug() << error;
         return;
     }
 
     connect(this->socket.get(), &QTcpSocket::readyRead, this, &CConnectionThread::ReadReady, Qt::DirectConnection);
     connect(this->socket.get(), &QTcpSocket::disconnected, this, &CConnectionThread::Disconnected);
 
-    qDebug() << "New client connected: " << this->descriptor;
-
-    QThread::start();
+    exec();
 }
 
-void CConnectionThread::ReadReady() {
+void CConnectionThread::CloseConnection()
+{
+    if (this->socket->isOpen())
+    {
+        qDebug() << "Connection:" << this->descriptor << "closed";
+        this->socket->close();
+        this->socket->deleteLater();
+    }
+}
+
+void CConnectionThread::ReadReady()
+{
     QByteArray Data = this->socket->readAll();
-
-    qDebug() << "New message received from: " << this->descriptor << " " << Data;
+    QString str = QString::fromStdString(Data.toStdString());
+    qDebug() << "New message received from:" << this->descriptor << str;
 }
 
-void CConnectionThread::Disconnected() {
-    qDebug() << "Client disconnected: " << this->descriptor;
+void CConnectionThread::Disconnected()
+{
+    qDebug() << "Client disconnected:" << this->descriptor;
     QThread::exit(0);
 }

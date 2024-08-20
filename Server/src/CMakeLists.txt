@@ -3,8 +3,6 @@ qt_add_executable(${PROJECT_NAME}
     App/CConnectionThread.h
     App/CServer.cpp
     App/CServer.h
-    App/CServerThread.cpp
-    App/CServerThread.h
 
     UI/CMainWindow.ui
     UI/CMainWindow.cpp

@@ -7,10 +7,6 @@ qt_add_executable(${PROJECT_NAME}
 
     App/CConnection.cpp
     App/CConnection.h
-
-    App/CConnectionThread.cpp
-    App/CConnectionThread.h
-
 )
 
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

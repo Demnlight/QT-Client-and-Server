@@ -4,10 +4,13 @@
 #include <memory>
 
 #include <QMainWindow>
-#include "../App/CConnectionThread.h"
+#include "../App/CConnection.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class CMainWindow; }
+namespace Ui
+{
+    class CMainWindow;
+}
 QT_END_NAMESPACE
 
 class CMainWindow : public QMainWindow
@@ -20,6 +23,6 @@ public:
 
 private:
     Ui::CMainWindow *ui;
-    std::unique_ptr<CConnectionThread> ConnectionThread;
+    std::unique_ptr<CConnection> connection;
 };
 #endif // CMAINWINDOW_H

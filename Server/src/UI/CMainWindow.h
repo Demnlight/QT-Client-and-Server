@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "../App/CServerThread.h"
+#include "../App/CServer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class CMainWindow; }
@@ -19,6 +19,6 @@ public:
 
 private:
     Ui::CMainWindow *ui;
-    std::unique_ptr<CServerThread> ServerThread;
+    std::unique_ptr<CServer> Server;
 };
 #endif // CMAINWINDOW_H

@@ -6,17 +6,18 @@
 #include <QThread>
 #include <QTcpSocket>
 
-class CConnectionThread : public QThread {
+class CConnectionThread : public QThread
+{
     Q_OBJECT
 
 public:
-    CConnectionThread(qintptr id, QObject* parent = 0);
+    CConnectionThread(qintptr id, QObject *parent = 0);
 
-    void Run( );
-
+    void run() override;
+    void CloseConnection();
 public slots:
-    void ReadReady( );
-    void Disconnected( );
+    void ReadReady();
+    void Disconnected();
 
 private:
     std::unique_ptr<QTcpSocket> socket;

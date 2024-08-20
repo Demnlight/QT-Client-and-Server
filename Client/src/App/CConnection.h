@@ -1,17 +1,23 @@
+#pragma once
 #include <QTcpSocket>
 #include <memory>
+class QMainWindow;
 
-class CConnection : public QObject {
+class CConnection : public QObject
+{
     Q_OBJECT;
 
 public:
-    CConnection(QString address, const int port);
-
+    CConnection(const QString &address, const int port, QMainWindow *parent = 0);
+    ~CConnection();
     void Send(QString message);
 
 public slots:
     void OnReadyRead();
+    void OnDisconnected();
+    void OnStateChanged();
 
 private:
     std::unique_ptr<QTcpSocket> socket;
+    QMainWindow *parent;
 };

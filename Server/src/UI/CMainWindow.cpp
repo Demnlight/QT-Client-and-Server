@@ -7,12 +7,10 @@ CMainWindow::CMainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Server");
 
-    this->ServerThread = std::make_unique<CServerThread>( );
-    this->ServerThread->Run();
+    this->Server = std::make_unique<CServer>( );
 }
 
 CMainWindow::~CMainWindow()
 {
-    this->ServerThread->exit(0);
     delete ui;
 }

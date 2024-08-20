@@ -1,18 +1,16 @@
 #include "CMainWindow.h"
 #include "./ui_CMainWindow.h"
 
-
 CMainWindow::CMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::CMainWindow)
 {
     ui->setupUi(this);
 
-    this->ConnectionThread = std::make_unique<CConnectionThread>( );
-    this->ConnectionThread->Run();
+    this->connection = std::make_unique<CConnection>("127.0.0.1", 3333, this);
+    this->connection->Send("username: demnlight");
 }
 
 CMainWindow::~CMainWindow()
 {
-    this->ConnectionThread->exit(0);
     delete ui;
 }
