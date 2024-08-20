@@ -29,7 +29,16 @@ void CConnectionThread::CloseConnection()
         qDebug() << "Connection:" << this->descriptor << "closed";
         this->socket->close();
         this->socket->deleteLater();
+        this->socket = nullptr;
     }
+
+    this->StopThread();
+}
+
+void CConnectionThread::StopThread()
+{
+    QThread::exit(0);
+    QThread::wait();
 }
 
 void CConnectionThread::ReadReady()

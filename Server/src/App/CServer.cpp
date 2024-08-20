@@ -30,7 +30,7 @@ void CServer::incomingConnection(qintptr descriptor)
     std::shared_ptr<CConnectionThread> ConnectionThread = std::make_shared<CConnectionThread>(descriptor, this);
     ConnectionThread->start();
 
-    this->aThreads.push_back(ConnectionThread);
+    this->aThreads.push_back(std::move(ConnectionThread));
 
     qDebug() << "New client connected:" << descriptor;
 }

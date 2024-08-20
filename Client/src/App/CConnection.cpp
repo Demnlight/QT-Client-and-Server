@@ -10,13 +10,13 @@ CConnection::CConnection(const QString &address, const int port, QMainWindow *pa
         return;
 
     this->parent = parent;
-    this->socket = std::make_unique<QTcpSocket>();
+    this->socket = new QTcpSocket();
 
     this->parent->statusBar()->showMessage("Connecting...");
 
-    connect(this->socket.get(), &QTcpSocket::readyRead, this, &CConnection::OnReadyRead);
-    connect(this->socket.get(), &QTcpSocket::disconnected, this, &CConnection::OnDisconnected);
-    connect(this->socket.get(), &QTcpSocket::stateChanged, this, &CConnection::OnStateChanged);
+    connect(this->socket, &QTcpSocket::readyRead, this, &CConnection::OnReadyRead);
+    connect(this->socket, &QTcpSocket::disconnected, this, &CConnection::OnDisconnected);
+    connect(this->socket, &QTcpSocket::stateChanged, this, &CConnection::OnStateChanged);
 
     bool bConnected = false;
     int nConnectionAttempt = 0;
@@ -31,24 +31,16 @@ CConnection::CConnection(const QString &address, const int port, QMainWindow *pa
         this->socket->connectToHost(address, port);
         if (this->socket->waitForConnected(900))
         {
-            this->parent->statusBar()->showMessage("Connected", 5000);
+            this->parent->statusBar()->showMessage("Connected");
             bConnected = true;
         }
-        else
-        {
-            nConnectionAttempt++;
-            QThread::sleep(std::chrono::seconds(1));
-        }
+
+        nConnectionAttempt++;
     }
 }
 
 CConnection::~CConnection()
 {
-    if (!this->socket)
-        return;
-        
-    this->socket->close();
-    this->socket->deleteLater();
 }
 
 void CConnection::Send(QString message)
@@ -85,7 +77,7 @@ void CConnection::OnStateChanged()
 
 void CConnection::OnReadyRead()
 {
-    QDataStream in = QDataStream(this->socket.get());
+    QDataStream in = QDataStream(this->socket);
     in.setVersion(QDataStream::Version::Qt_6_7);
 
     QDataStream::Status status = in.status();

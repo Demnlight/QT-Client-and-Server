@@ -15,6 +15,7 @@ public:
 
     void run() override;
     void CloseConnection();
+    void StopThread();
 public slots:
     void ReadReady();
     void Disconnected();

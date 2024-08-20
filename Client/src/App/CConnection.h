@@ -18,6 +18,6 @@ public slots:
     void OnStateChanged();
 
 private:
-    std::unique_ptr<QTcpSocket> socket;
+    QTcpSocket* socket;
     QMainWindow *parent;
 };
