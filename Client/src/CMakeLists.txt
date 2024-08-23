@@ -1,9 +1,15 @@
 qt_add_executable(${PROJECT_NAME}
     main.cpp
 
-    UI/CMainWindow.ui
+    #UI/CMainWindow.ui
     UI/CMainWindow.cpp
     UI/CMainWindow.h
+
+    UI/Components/Widgets/CCustomShadowEffect.cpp
+    UI/Components/Widgets/CCustomShadowEffect.h
+
+    UI/Components/Widgets/CInputText.cpp
+    UI/Components/Widgets/CInputText.h
 
     App/CConnection.cpp
     App/CConnection.h

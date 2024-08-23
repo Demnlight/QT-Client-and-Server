@@ -10,7 +10,7 @@ class CConnection : public QObject
 public:
     CConnection(const QString &address, const int port, QMainWindow *parent = 0);
     ~CConnection();
-    void Send(QString message);
+    void Send(const QString & message);
 
 public slots:
     void OnReadyRead();

@@ -17,7 +17,7 @@ public slots:
     void incomingConnection(qintptr descriptor) override;
 
 private:
-    QVector<std::shared_ptr<CConnectionThread>> aThreads;
+    QList<std::shared_ptr<CConnectionThread>> aThreads;
 
     const int port = 3333;
 };

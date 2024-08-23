@@ -37,13 +37,16 @@ CConnection::CConnection(const QString &address, const int port, QMainWindow *pa
 
         nConnectionAttempt++;
     }
+
+    if (!bConnected)
+        this->parent->statusBar()->showMessage("Failed to connect", 0);
 }
 
 CConnection::~CConnection()
 {
 }
 
-void CConnection::Send(QString message)
+void CConnection::Send(const QString & message)
 {
     QByteArray Data;
     QDataStream out = QDataStream(&Data, QIODevice::WriteOnly);
