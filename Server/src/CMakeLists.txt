@@ -4,6 +4,13 @@ qt_add_executable(${PROJECT_NAME}
     App/CServer.cpp
     App/CServer.h
 
+    App/Messages/CLoginMessage.cpp
+    App/Messages/CLoginMessage.h
+    App/Messages/IMessage.h
+
+    App/CMessageHandler.cpp
+    App/CMessageHandler.h
+    
     UI/CMainWindow.ui
     UI/CMainWindow.cpp
     UI/CMainWindow.h
@@ -12,6 +19,7 @@ qt_add_executable(${PROJECT_NAME}
     PostgreSQL/CDataBaseConnector.h
     PostgreSQL/CDataBaseConnector.cpp
 
+    
     main.cpp
 )
 

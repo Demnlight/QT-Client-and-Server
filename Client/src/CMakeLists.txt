@@ -1,9 +1,12 @@
 qt_add_executable(${PROJECT_NAME}
     main.cpp
 
-    #UI/CMainWindow.ui
+    # UI/CMainWindow.ui
     UI/CMainWindow.cpp
     UI/CMainWindow.h
+
+    UI/Components/CLoginWindow.cpp
+    UI/Components/CLoginWindow.h
 
     UI/Components/Widgets/CCustomShadowEffect.cpp
     UI/Components/Widgets/CCustomShadowEffect.h
@@ -13,6 +16,11 @@ qt_add_executable(${PROJECT_NAME}
 
     App/CConnection.cpp
     App/CConnection.h
+
+    App/Messages/IMessage.h
+
+    App/Messages/CLoginMessage.cpp
+    App/Messages/CLoginMessage.h
 )
 
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})

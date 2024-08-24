@@ -31,7 +31,7 @@ CConnection::CConnection(const QString &address, const int port, QMainWindow *pa
         this->socket->connectToHost(address, port);
         if (this->socket->waitForConnected(900))
         {
-            this->parent->statusBar()->showMessage("Connected");
+            this->parent->statusBar()->showMessage("Connected", 0);
             bConnected = true;
         }
 
@@ -46,21 +46,9 @@ CConnection::~CConnection()
 {
 }
 
-void CConnection::Send(const QString & message)
+void CConnection::Send(const QString &message)
 {
-    QByteArray Data;
-    QDataStream out = QDataStream(&Data, QIODevice::WriteOnly);
-    QDataStream::Status status = out.status();
-
-    if (status != QDataStream::Status::Ok)
-    {
-        qDebug() << "Status != OK";
-        return;
-    }
-
-    out << message;
-
-    this->socket->write(Data);
+    this->socket->write(message.toUtf8());
 }
 
 void CConnection::OnDisconnected()
@@ -68,7 +56,7 @@ void CConnection::OnDisconnected()
     if (this->socket)
     {
         qDebug() << "Client disconnected: " << this->socket->socketDescriptor();
-        this->parent->statusBar()->showMessage("Disconnected");
+        this->parent->statusBar()->showMessage("Disconnected", 0);
         this->socket->close();
         this->socket->deleteLater();
     }
@@ -80,18 +68,8 @@ void CConnection::OnStateChanged()
 
 void CConnection::OnReadyRead()
 {
-    QDataStream in = QDataStream(this->socket);
-    in.setVersion(QDataStream::Version::Qt_6_7);
+    QByteArray Data = this->socket->readAll();
+    QString Message = QString(Data);
 
-    QDataStream::Status status = in.status();
-    if (status != QDataStream::Status::Ok)
-    {
-        qDebug() << "Status != OK";
-        return;
-    }
-
-    QString str;
-    in >> str;
-
-    qDebug() << str;
+    qDebug() << "New message from server received:" << Message;
 }
