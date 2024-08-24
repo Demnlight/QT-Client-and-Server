@@ -14,6 +14,10 @@ public:
     CMainWindow(QWidget *parent = nullptr);
     ~CMainWindow();
 
+
+    CConnection* GetConnection() {
+        return this->connection.get();
+    }
 private:
     std::unique_ptr<CConnection> connection;
 };

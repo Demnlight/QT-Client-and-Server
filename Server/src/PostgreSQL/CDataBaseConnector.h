@@ -10,7 +10,11 @@ public:
     CDataBaseConnector();
     ~CDataBaseConnector();
 
-    void Connect(const QString& dbname, const QString& user, const QString& pass ) override;
+    ConnectionStatus Connect(const QString &dbname, const QString &user, const QString &pass) override;
     void Disconnect() override;
-    
+
+    pqxx::connection *GetConnection()
+    {
+        return this->connection.get();
+    }
 };

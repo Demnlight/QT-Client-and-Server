@@ -8,9 +8,6 @@ CMainWindow::CMainWindow(QWidget *parent)
     this->setWindowTitle("Server");
 
     this->Server = std::make_unique<CServer>();
-    this->DBConnector = std::make_unique<CDataBaseConnector>();
-
-    this->DBConnector->Connect("laconism_users", "postgres", "admin");
 }
 
 CMainWindow::~CMainWindow()

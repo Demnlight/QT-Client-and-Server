@@ -11,9 +11,19 @@ class CInputText
 public:
     CInputText(const QString &label, const QString &preview, QWidget *parent = 0);
 
-    QLayout* GetLayout() {
+    QLayout *GetLayout()
+    {
         return this->InputTextLayout;
     }
+
+    QString GetText()
+    {
+        if (this->InputForm)
+            return this->InputForm->text();
+        else
+            return nullptr;
+    }
+
 private:
     QVBoxLayout *InputTextLayout;
     QLineEdit *InputForm;

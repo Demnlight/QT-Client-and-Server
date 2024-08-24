@@ -1,12 +1,25 @@
 #include "CConnectionThread.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 CConnectionThread::CConnectionThread(qintptr id, QObject *parent)
 {
     this->descriptor = id;
+    this->DBConnector = std::make_unique<CDataBaseConnector>();
+
+    IConnector::ConnectionStatus status = this->DBConnector->Connect("laconism_users", "postgres", "admin");
+    if (status != IConnector::ConnectionStatus::OK)
+        return;
+
+    this->MessageHandler = std::make_unique<CMessageHandler>(this->DBConnector.get());
 }
 
 void CConnectionThread::run()
 {
+    if (!this->MessageHandler)
+        return;
+
     this->socket = std::make_unique<QTcpSocket>();
 
     if (!this->socket->setSocketDescriptor(this->descriptor))
@@ -44,8 +57,28 @@ void CConnectionThread::StopThread()
 void CConnectionThread::ReadReady()
 {
     QByteArray Data = this->socket->readAll();
-    QString str = QString::fromStdString(Data.toStdString());
-    qDebug() << "New message received from:" << this->descriptor << str;
+
+    QJsonDocument JsonDoc = QJsonDocument::fromJson(Data);
+
+    if (!JsonDoc.isNull())
+    {
+        if (JsonDoc.isObject())
+        {
+            QJsonObject obj = JsonDoc.object();
+            int nID = obj["id"].toInt();
+
+            qDebug() << "Message id:" << nID;
+
+            this->MessageHandler->HandleMessage(static_cast<IMessage::Message>(nID), obj);
+        }
+        else
+            qDebug() << "Document is not an object";
+    }
+    else
+    {
+        QString message = QString(Data);
+        qDebug() << "Invalid JSON |" << message;
+    }
 }
 
 void CConnectionThread::Disconnected()

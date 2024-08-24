@@ -6,6 +6,9 @@
 #include <QThread>
 #include <QTcpSocket>
 
+#include "../PostgreSQL/CDataBaseConnector.h"
+#include "CMessageHandler.h"
+
 class CConnectionThread : public QThread
 {
     Q_OBJECT
@@ -21,6 +24,8 @@ public slots:
     void Disconnected();
 
 private:
+    std::unique_ptr<CMessageHandler> MessageHandler;
+    std::unique_ptr<CDataBaseConnector> DBConnector;
     std::unique_ptr<QTcpSocket> socket;
     qintptr descriptor;
 };

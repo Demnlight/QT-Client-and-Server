@@ -4,17 +4,29 @@
 #include <memory>
 
 #include <QMainWindow>
+#include <QPushButton>
 
-class CLoginForm : public QWidget
+#include "Widgets/CInputText.h"
+
+class CMainWindow;
+
+class CLoginForm : public QObject
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
-    CLoginForm(QWidget *parent = nullptr);
+    CLoginForm(CMainWindow *parent = nullptr);
     ~CLoginForm();
 
-private:
+public slots:
+    void OnLoginButtonPressed();
 
+private:
+    QPushButton *LoginButton;
+    CInputText *InputLogin;
+    CInputText *InputPassword;
+
+    CMainWindow* MainWindow;
 };
 
 #endif // __CLOGINWINDOW_H__
